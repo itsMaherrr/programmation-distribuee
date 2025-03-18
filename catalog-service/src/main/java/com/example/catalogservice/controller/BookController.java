@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/books")
 public class BookController {
@@ -17,11 +18,13 @@ public class BookController {
         this.bookRepo = bookRepo;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping
     public List<Book> getAllBooks() {
         return bookRepo.findAll(PageRequest.of(2, 30)).getContent();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/search")
     public List<Book> searchBooks(@RequestParam String query) {
         return bookRepo.searchBooks(query, PageRequest.of(0, 30)).getContent();

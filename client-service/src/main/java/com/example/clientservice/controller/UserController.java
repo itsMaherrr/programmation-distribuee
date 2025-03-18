@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -20,6 +21,7 @@ public class UserController {
         this.userRepo = userRepo;
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> createUser(@RequestBody User userRequest) {
         Map<String, Object> response = new HashMap<>();

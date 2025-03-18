@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/users/{userId}/books")
 public class UserBookController {
@@ -29,11 +30,13 @@ public class UserBookController {
         this.bookRepo = bookRepo;
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping
     public List<UserBookDTO> getUserBooks(@PathVariable Long userId) {
         return userBookRepo.findUserBooksWithDetails(userId);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/{bookId}")
     public UserBook addBookToUser(@PathVariable int userId, @PathVariable int bookId) {
         User user = userRepo.findById(userId).orElseThrow();
@@ -45,6 +48,7 @@ public class UserBookController {
         return userBookRepo.save(userBook);
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/{bookId}/mark-read")
     public ResponseEntity<Map<String, Object>> markBookAsRead(@PathVariable int userId, @PathVariable int bookId) {
         int updatedRows = userBookRepo.markBookAsRead(userId, bookId);
