@@ -10,7 +10,6 @@ import axios from "axios";
 const ResultItem = (props) => {
 
     const [style, setStyle] = useState({ display: 'none' });
-    const [changed, setChanged] = useState(false);
 
 
     const elem = props.item;
@@ -26,7 +25,7 @@ const ResultItem = (props) => {
             await axios.post(`http://localhost:8081/users/${userId}/books/${bookId}`)
                 .then((response) => {
                     if (response.status === 200) {
-                        setChanged(true);
+                        console.log('Bingo')
                     }
                 })
         } catch (error) {
@@ -45,7 +44,7 @@ const ResultItem = (props) => {
             await axios.put(`http://localhost:8081/users/${userId}/books/${bookId}/mark-read`)
                 .then((response) => {
                     if (response.status === 200 && response.data.success === true) {
-                        setChanged(true);
+                        console.log('Bingo')
                     }
                 })
         } catch (error) {

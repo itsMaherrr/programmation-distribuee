@@ -1,13 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Result from './Result';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 
 const Browse = () => {
 
     const [data, setData] = useState([]);
-    const [sentence, setSentence] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
