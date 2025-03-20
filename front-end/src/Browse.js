@@ -9,8 +9,10 @@ const Browse = () => {
     const [data, setData] = useState([]);
     const [sentence, setSentence] = useState("");
 
+    const API_URL = process.env.REACT_APP_CatalogService_URL;
+
     const researchFor = async (sentence) => {
-        await axios.get(`http://localhost:8080/books/search?query=${sentence}`)
+        await axios.get(`${API_URL}/books/search?query=${sentence}`)
             .then((response) => {
                 setData(response['data']);
             })
@@ -23,7 +25,7 @@ const Browse = () => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get('http://localhost:8080/books');
+            const response = await axios.get(`${API_URL}/books`);
             setData(response.data);
           } catch (error) {
             console.log('RIP', error);

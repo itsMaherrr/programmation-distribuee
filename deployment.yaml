@@ -1,0 +1,174 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+    version: '0.1'
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: itsmaherrr/frontend:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        env:
+        - name: REACT_APP_MS1_URL
+          value: "http://catalogservice:8080"
+        - name: REACT_APP_MS2_URL
+          value: "http://clientservice:8081"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogservice
+  labels:
+    app: catalogservice
+    version: '0.1'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogservice
+  template:
+    metadata:
+      labels:
+        app: catalogservice
+    spec:
+      containers:
+      - name: catalogservice
+        image: itsmaherrr/catalogservice:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clientservice
+  labels:
+    app: clientservice
+    version: '0.1'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clientservice
+  template:
+    metadata:
+      labels:
+        app: clientservice
+    spec:
+      containers:
+      - name: clientservice
+        image: itsmaherrr/clientservice:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8081
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: catalogservice
+  name: catalogservice
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+      name: http
+  selector:
+    app: catalogservice
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: clientservice
+  name: clientservice
+spec:
+  ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 8081
+      name: http
+  selector:
+    app: clientservice
+  type: ClusterIP
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: app-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "progdistmaher.works"
+    - "www.progdistmaher.works"
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "progdistmaher.works"
+    - "www.progdistmaher.works"
+    tls:
+      mode: SIMPLE
+      credentialName: progdistmaher-secret
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: frontend
+spec:
+  hosts:
+  - "progdistmaher.works"
+  - "www.progdistmaher.works"
+  gateways:
+  - app-gateway
+  http:
+  - match:
+    - port: 80
+    redirect:
+      scheme: https
+      port: 443
+  - route:
+    - destination:
+        host: frontend
+        port:
+          number: 80

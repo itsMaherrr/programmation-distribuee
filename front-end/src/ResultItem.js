@@ -19,10 +19,12 @@ const ResultItem = (props) => {
     const addToReadList = async (event) => {
         event.preventDefault();
 
+        const API_URL = process.env.REACT_APP_ClientService_URL;
+
         const bookId = elem.id;
         const userId = JSON.parse(localStorage.getItem('session')).userId;
         try {
-            await axios.post(`http://localhost:8081/users/${userId}/books/${bookId}`)
+            await axios.post(`${API_URL}/users/${userId}/books/${bookId}`)
                 .then((response) => {
                     if (response.status === 200) {
                         console.log('Bingo')
@@ -41,7 +43,7 @@ const ResultItem = (props) => {
         
         console.log("elem" + elem);
         try {
-            await axios.put(`http://localhost:8081/users/${userId}/books/${bookId}/mark-read`)
+            await axios.put(`${API_URL}/users/${userId}/books/${bookId}/mark-read`)
                 .then((response) => {
                     if (response.status === 200 && response.data.success === true) {
                         console.log('Bingo')

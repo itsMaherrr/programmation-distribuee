@@ -22,6 +22,8 @@ function Register() {
         const email = event.target.email.value;
         const password = event.target.password.value;
 
+        const API_URL = process.env.REACT_APP_ClientService_URL;
+
         const user = {
             'fullName': fullName,
             'email': email,
@@ -31,7 +33,7 @@ function Register() {
             'Content-Type': 'application/json',
         };
 
-        await axios.post(`http://localhost:8081/users/register`, user, { headers: headers })
+        await axios.post(`${API_URL}/users/register`, user, { headers: headers })
             .then((response) => {
                 console.log(response.data.success);
                 if (response.status === 200) {
