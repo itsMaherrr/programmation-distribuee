@@ -17,16 +17,15 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: itsmaherrr/frontend:v1
+        image: itsmaherrr/frontend:v4.3.8
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
           protocol: TCP
-        env:
-        - name: REACT_APP_MS1_URL
-          value: "http://catalogservice:8080"
-        - name: REACT_APP_MS2_URL
-          value: "http://clientservice:8081"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -52,6 +51,10 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -77,6 +80,11 @@ spec:
         ports:
         - containerPort: 8081
           protocol: TCP
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+
 ---
 apiVersion: v1
 kind: Service
@@ -162,6 +170,26 @@ spec:
   gateways:
   - app-gateway
   http:
+  - match:
+    - uri:
+        prefix: /api/catalog/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: catalogservice
+        port:
+          number: 8080
+  - match:
+    - uri:
+        prefix: /api/client/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: clientservice
+        port:
+          number: 8081
   - match:
     - port: 80
     redirect:

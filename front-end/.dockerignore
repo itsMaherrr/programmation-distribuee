@@ -1,0 +1,15 @@
+# Fichiers locaux inutiles
+node_modules
+.git
+.gitignore
+
+# Fichiers temporaires ou sensibles
+*.log
+*.secret
+.env
+config.secret.json
+
+# Dossiers de build/tests
+dist
+build
+tests

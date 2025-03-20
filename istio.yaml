@@ -1,0 +1,22 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: istiocontrolplane
+spec:
+  values:
+    global:
+      proxy:
+        privileged: false  
+  components:
+    pilot:
+      k8s:
+        overlays:
+        - kind: Deployment
+          name: istiod
+          patches:
+          - path: spec.template.spec.containers[0].securityContext
+            value:
+              capabilities:
+                drop:
+                - NET_ADMIN

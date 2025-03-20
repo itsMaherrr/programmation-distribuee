@@ -11,6 +11,7 @@ import {
 from 'mdb-react-ui-kit';
 import { Button as BsButton, Form } from 'react-bootstrap';
 import { Button as MuiButton } from '@mui/material';
+import config from './Config';
 
 
 function Register() {
@@ -22,7 +23,7 @@ function Register() {
         const email = event.target.email.value;
         const password = event.target.password.value;
 
-        const API_URL = process.env.REACT_APP_ClientService_URL;
+        const API_URL = config.clnsUrl;
 
         const user = {
             'fullName': fullName,

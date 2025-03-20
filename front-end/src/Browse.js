@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import Result from './Result';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import config from './Config';
 
 const Browse = () => {
 
     const [data, setData] = useState([]);
     const [sentence, setSentence] = useState("");
 
-    const API_URL = process.env.REACT_APP_CatalogService_URL;
+    const API_URL = config.ctgsUrl;
 
     const researchFor = async (sentence) => {
         await axios.get(`${API_URL}/books/search?query=${sentence}`)

@@ -6,6 +6,7 @@ import { Card } from "react-bootstrap";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import config from "./Config";
 
 const ResultItem = (props) => {
 
@@ -16,7 +17,7 @@ const ResultItem = (props) => {
     const browse = props.browse;
     const read = props.read;
 
-    const API_URL = process.env.REACT_APP_ClientService_URL;
+    const API_URL = config.clnsUrl;
 
     const addToReadList = async (event) => {
         event.preventDefault();

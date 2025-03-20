@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Result from './Result';
+import config from './Config';
 
 const Browse = () => {
 
     const [data, setData] = useState([]);
 
-    const API_URL = process.env.REACT_APP_ClientService_URL;
+    const API_URL = config.clnsUrl;
 
     useEffect(() => {
         const fetchData = async () => {

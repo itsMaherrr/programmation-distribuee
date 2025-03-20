@@ -1,6 +1,7 @@
-# Node.js
 front-end/node_modules/
 front-end/dist/
 front-end/.env
 front-end/.DS_Store
-
+istio-1.25.0/
+cert-manager.yaml
+istio.yaml
