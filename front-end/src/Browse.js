@@ -34,7 +34,7 @@ const Browse = () => {
       
         fetchData();
 
-      }, []);
+      }, [API_URL]);
 
     return (
         <div className="create">

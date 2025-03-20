@@ -21,7 +21,7 @@ const Browse = () => {
 
         fetchData();
 
-    }, []);
+    }, [API_URL]);
 
     return (
         <Result data={data} browse={false} read={true} />
