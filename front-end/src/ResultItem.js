@@ -16,10 +16,10 @@ const ResultItem = (props) => {
     const browse = props.browse;
     const read = props.read;
 
+    const API_URL = process.env.REACT_APP_ClientService_URL;
+
     const addToReadList = async (event) => {
         event.preventDefault();
-
-        const API_URL = process.env.REACT_APP_ClientService_URL;
 
         const bookId = elem.id;
         const userId = JSON.parse(localStorage.getItem('session')).userId;
